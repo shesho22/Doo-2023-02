@@ -18,8 +18,6 @@ public final  class ClienteEntity {
 	private Date fechaNacimiento;
 	
 	
-	
-	
 	private ClienteEntity(final UUID id, final TipoIdentificacionEntity tipoidentificacion, final String identificacion, final NombreCompletoClienteEntity nombreCompleto, final CorreoElectronicoClienteEntity correoElectornico,
 			final NumeroTelefonoMovilClienteEntity numeroTelefonoMovil,final Date fechaNacimiento) {
 		setId(id);
@@ -86,7 +84,4 @@ public final  class ClienteEntity {
 	public final Date getFechaNacimiento() {
 		return fechaNacimiento;
 	}
-	
-	
-	
 }
