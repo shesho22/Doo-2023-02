@@ -11,6 +11,9 @@ import co.edu.uco.tiendaonline.data.entity.TipoIdentificacionEntity;
 
 public final class TipoIdentificscionSQLServerDAO extends SQLDAO implements TipoIdentificacionDAO {
 
+	
+	
+	
 	public TipoIdentificscionSQLServerDAO(final Connection conexion) {
 		super(conexion);
 	}
