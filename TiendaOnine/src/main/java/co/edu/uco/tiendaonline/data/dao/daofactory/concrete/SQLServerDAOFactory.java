@@ -1,7 +1,10 @@
 package co.edu.uco.tiendaonline.data.dao.daofactory.concrete;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
+import co.edu.uco.tiendaonline.crosscutting.exception.concrete.DataTiendaOnlineException;
+import co.edu.uco.tiendaonline.crosscutting.util.UtilSQL;
 import co.edu.uco.tiendaonline.data.dao.ClienteDAO;
 import co.edu.uco.tiendaonline.data.dao.TipoIdentificacionDAO;
 import co.edu.uco.tiendaonline.data.dao.daofactory.DAOFactory;
@@ -18,32 +21,39 @@ public final class SQLServerDAOFactory extends DAOFactory{
 	}
 	@Override
 	protected final void abrirConecxion() {
-		// TODO obtener la conexion con la base de datos 
-		conexion = null;
-		
+		try {
+			conexion = null;
+		} catch (SQLException exception) {
+			throw DataTiendaOnlineException.crear(exception, null, null);
+		}catch (ClassNotFoundException exception) {
+			throw DataTiendaOnlineException.crear(exception, null, null);
+		}
+		catch (Exception exception) {
+			throw DataTiendaOnlineException.crear(exception, null, null);
+		}
 	}
 
 	@Override
 	public final void cerrarConexion() {
-		// TODO cerrar conexion
+		UtilSQL.cerrarConexion(conexion);
 		
 	}
 
 	@Override
 	public void iniciarTransaccion() {
-		// TODO iniciar transaccion  
+		UtilSQL.iniciarTransaccion(conexion);
 		
 	}
 
 	@Override
 	public void confirmarTransaccion() {
-		// TODO confirmar transaccion 
+		UtilSQL.confirmarTransaccion(conexion);
 		
 	}
 
 	@Override
 	public void cancelarTransaccion() {
-		// TODO rollback
+		UtilSQL.cancelarTransaccion(conexion);
 		
 	}
 
