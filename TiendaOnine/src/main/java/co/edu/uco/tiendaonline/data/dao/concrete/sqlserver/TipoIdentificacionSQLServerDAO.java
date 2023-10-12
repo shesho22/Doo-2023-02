@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.naming.spi.DirStateFactory.Result;
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
-
 import co.edu.uco.tiendaonline.crosscutting.exception.concrete.DataTiendaOnlineException;
 import co.edu.uco.tiendaonline.data.dao.ClienteDAO;
 import co.edu.uco.tiendaonline.data.dao.TipoIdentificacionDAO;
@@ -25,23 +22,26 @@ public final class TipoIdentificacionSQLServerDAO extends SQLDAO implements Tipo
 	@Override
 	public final void crear(final TipoIdentificacionEntity entity) {
 		final var sentencia = new StringBuilder();
+		
 		sentencia.append("INSERT INTO TipoIdentificacion (id,codigo,nombre,estado)");
 		sentencia.append("VALUES (?, ?, ?, ?)");
-		try (final var sentenciaPreparada =getConexion().prepareStatement(sentencia)){
+		
+		try (final var sentenciaPreparada =getConexion().prepareStatement(sentencia.toString())){
 			sentenciaPreparada.setObject(1,entity.getId());
-			sentenciaPreparada.setObject(2,entity.getId());
-			sentenciaPreparada.setObject(3,entity.getId());
-			sentenciaPreparada.setObject(4,entity.getId());
+			sentenciaPreparada.setObject(2,entity.getCodigo());
+			sentenciaPreparada.setObject(3,entity.getNombre());
+			sentenciaPreparada.setObject(4,entity.isEstado());
 			
-			sentenciaPreparada.exexcuteUpdate();
-		} catch (final SQLException exception) {
-			var mensajeUsuario ="";
-			var mensajeTecnico ="";
-			throw DataTiendaOnlineException.crear(exception,mensajeUsuario,mensajeTecnico);
-		}catch (final Exception exception) {
-			var mensajeUsuario ="";
-			var mensajeTecnico ="";
-			throw DataTiendaOnlineException.crear(exception,mensajeUsuario,mensajeTecnico);
+			sentenciaPreparada.executeUpdate();
+			
+		} catch (final SQLException excepcion) {
+			var mensajeUsuario ="Se ha presentado un problema tratando de registrar la informacion del nuevo tipo de identificacion...";
+			var mensajeTecnico ="Se ha presentado un problema de tipo SQLException en el metodo crear de la clase TipoIdentificacionSQLServer tratando de llevar a cabo el registro del nuevo tipo de identificacion. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+			throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);
+		}catch (final Exception excepcion) {
+			var mensajeUsuario ="Se ha presentado un problema tratando de registrar la informacion del nuevo tipo de identificacion...";
+			var mensajeTecnico ="Se ha presentado un problema inesperado de tipo Exception en el metodo crear de la clase TipoIdentificacionSQLServer tratando de llevar a cabo el registro del nuevo tipo de identificacion. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+			throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);
 		}
 	}
 
@@ -65,7 +65,7 @@ public final class TipoIdentificacionSQLServerDAO extends SQLDAO implements Tipo
 		sentencia.append("FROM TipoIdentificacion ");
 		sentencia.append("WHERE id = ? ");
 		
-		getConexion();
+		Optional<TipoIdentificacionEntity> resultado = Optional.empty();
 		
 		try (final var sentenciaPreparada = getConexion().prepareStatement(sentencia.toString())){
 			
@@ -78,20 +78,20 @@ public final class TipoIdentificacionSQLServerDAO extends SQLDAO implements Tipo
 				}
 			}catch (final SQLException excepcion){
 				var mensajeUsuario ="Se ha presentado un problema tratando de consultar la informacion del tipo de identificacion por el identificador deceado...";
-				var mensajeTecnico ="";
-				throw DataTiendaOnlineException.crear(exception,mensajeUsuario,mensajeTecnico);
+				var mensajeTecnico ="Se ha presentado un problema de tipo SQLException en el metodo consultarPorId de la clase TipoIdentificacionSQLServer tratando de recuperar los datos de la consulta del tipo identificacion deseado. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+				throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);
 			}
 			
 		}catch (final DataTiendaOnlineException exception) {
 			throw exception;
-		}catch(final SQLException exception) {
+		}catch(final SQLException excepcion) {
 			var mensajeUsuario ="Se ha presentado un problema tratando de consultar la informacion del tipo de identificacion por el identificador deceado...";
-			var mensajeTecnico ="";
-			throw DataTiendaOnlineException.crear(exception,mensajeUsuario,mensajeTecnico);
-		}catch (final Exception exception) {
+			var mensajeTecnico ="Se ha presentado un problema de tipo SQLException en el metodo consultarPorId de la clase TipoIdentificacionSQLServer tratando de preparar la sentencia SQL de la consulta del tipo identificacion deseado. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+			throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);
+		}catch (final Exception excepcion) {
 			var mensajeUsuario ="Se ha presentado un problema tratando de consultar la informacion del tipo de identificacion por el identificador deceado...";
-			var mensajeTecnico ="";
-			throw DataTiendaOnlineException.crear(exception,mensajeUsuario,mensajeTecnico);
+			var mensajeTecnico ="Se ha presentado un problema inesperado de tipo Exception en el metodo consultarPorId de la clase TipoIdentificacionSQLServer tratando de preparar la sentencia SQL de la consulta del tipo identificacion deseado. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+			throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);
 		}
 		return resultado;
 	}

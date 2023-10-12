@@ -36,7 +36,7 @@ public final class TipoIdentificscionSQLServerDAO extends SQLDAO implements Tipo
 	}
 
 	@Override
-	public final Optional<TipoIdentificacionEntity> consultar(final UUID id) {
+	public final Optional<TipoIdentificacionEntity> consultarPorId(final UUID id) {
 		// TODO Auto-generated method stub
 		return Optional.empty();
 	}

@@ -34,7 +34,7 @@ public class ClienteSQLServerDAO extends SQLDAO implements ClienteDAO{
 	}
 
 	@Override
-	public final Optional<ClienteEntity> consultar(final UUID id) {
+	public final Optional<ClienteEntity> consultarPorId(final UUID id) {
 		// TODO Auto-generated method stub
 		return Optional.empty();
 	}
