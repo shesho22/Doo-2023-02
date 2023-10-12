@@ -1,6 +1,6 @@
 package co.edu.uco.tiendaonline.crosscutting.messages;
 
-import co.edu.uco.tiendaonline.crosscutting.exception.concrete.CrosscuttingTiendaOnlineException;
+import co.edu.uco.tiendaonline.crosscutting.exception.concrete.CrossCuttingTiendaOnlineException;
 import co.edu.uco.tiendaonline.crosscutting.messages.enumerator.CategoriaMensaje;
 import co.edu.uco.tiendaonline.crosscutting.messages.enumerator.CodigoMensaje;
 import co.edu.uco.tiendaonline.crosscutting.messages.enumerator.TipoMensaje;
@@ -29,7 +29,7 @@ public final class Mensaje {
 		if(UtilObjeto.esNulo(codigo)) {
 			var mensajeUsuario= CatalogoMensajes.obtenerContenidoMensaje(CodigoMensaje.M0000000004);
 			var mensajeTecnico= CatalogoMensajes.obtenerContenidoMensaje(CodigoMensaje.M0000000003);
-			throw CrosscuttingTiendaOnlineException.crear(mensajeUsuario,mensajeTecnico);
+			throw CrossCuttingTiendaOnlineException.crear(mensajeUsuario,mensajeTecnico);
 		}
 		this.codigo = UtilObjeto.obtenerValorDefecto(codigo, null);
 	}

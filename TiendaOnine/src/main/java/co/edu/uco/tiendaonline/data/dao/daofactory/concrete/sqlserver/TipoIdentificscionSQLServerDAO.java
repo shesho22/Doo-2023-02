@@ -10,8 +10,6 @@ import co.edu.uco.tiendaonline.data.dao.base.SQLDAO;
 import co.edu.uco.tiendaonline.data.entity.TipoIdentificacionEntity;
 
 public final class TipoIdentificscionSQLServerDAO extends SQLDAO implements TipoIdentificacionDAO {
-
-	
 	
 	
 	public TipoIdentificscionSQLServerDAO(final Connection conexion) {
@@ -20,7 +18,8 @@ public final class TipoIdentificscionSQLServerDAO extends SQLDAO implements Tipo
 
 	@Override
 	public final void crear(final TipoIdentificacionEntity entity) {
-		// TODO Auto-generated method stub
+		final StringBuilder sentencia = new StringBuilder();
+		sentencia.append("INSERT INTO TipoIdentificacion ()");
 		
 	}
 

@@ -3,7 +3,7 @@ package co.edu.uco.tiendaonline.crosscutting.messages;
 import java.util.HashMap;
 import java.util.Map;
 
-import co.edu.uco.tiendaonline.crosscutting.exception.concrete.CrosscuttingTiendaOnlineException;
+import co.edu.uco.tiendaonline.crosscutting.exception.concrete.CrossCuttingTiendaOnlineException;
 import co.edu.uco.tiendaonline.crosscutting.messages.enumerator.CategoriaMensaje;
 import co.edu.uco.tiendaonline.crosscutting.messages.enumerator.CodigoMensaje;
 import co.edu.uco.tiendaonline.crosscutting.messages.enumerator.TipoMensaje;
@@ -38,12 +38,12 @@ public final class CatalogoMensajes {
 		if(UtilObjeto.esNulo(codigo)) {
 			var mensajeUsuario= obtenerMensaje(CodigoMensaje.M0000000004).getContenido();
 			var mensajeTecnico= obtenerMensaje(CodigoMensaje.M0000000003).getContenido();
-			throw CrosscuttingTiendaOnlineException.crear(mensajeUsuario,mensajeTecnico);
+			throw CrossCuttingTiendaOnlineException.crear(mensajeUsuario,mensajeTecnico);
 		}
 		if(!MENSAJES.containsKey(codigo)) {
 			var mensajeUsuario= obtenerMensaje(CodigoMensaje.M0000000004).getContenido();
 			var mensajeTecnico= obtenerMensaje(CodigoMensaje.M0000000002).getContenido();
-			throw CrosscuttingTiendaOnlineException.crear(mensajeUsuario,mensajeTecnico);
+			throw CrossCuttingTiendaOnlineException.crear(mensajeUsuario,mensajeTecnico);
 		}
 		return MENSAJES.get(codigo);
 	}
