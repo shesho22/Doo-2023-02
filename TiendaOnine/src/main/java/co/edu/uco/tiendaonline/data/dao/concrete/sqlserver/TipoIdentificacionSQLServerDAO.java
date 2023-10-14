@@ -1,12 +1,20 @@
 package co.edu.uco.tiendaonline.data.dao.concrete.sqlserver;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.boot.context.config.ConfigDataLocationResolver;
+import org.springframework.format.FormatterRegistrar;
+
 import co.edu.uco.tiendaonline.crosscutting.exception.concrete.DataTiendaOnlineException;
+import co.edu.uco.tiendaonline.crosscutting.util.UtilObjeto;
+import co.edu.uco.tiendaonline.crosscutting.util.UtilTexto;
 import co.edu.uco.tiendaonline.data.dao.ClienteDAO;
 import co.edu.uco.tiendaonline.data.dao.TipoIdentificacionDAO;
 import co.edu.uco.tiendaonline.data.dao.base.SQLDAO;
@@ -70,18 +78,7 @@ public final class TipoIdentificacionSQLServerDAO extends SQLDAO implements Tipo
 		try (final var sentenciaPreparada = getConexion().prepareStatement(sentencia.toString())){
 			
 			sentenciaPreparada.setObject(1, id);
-			
-			try (final var resultados = sentenciaPreparada.executeQuery()){
-				if (resultados.next()) {
-					var tipoIdentificacionEntity = TipoIdentificacionEntity.crear(UUID.fromString(resultados.getObject("id").toString()), resultados.getString("codigo"), resultados.getString("nombre"), resultados.getBoolean("estado"));
-					resultado = Optional.of(tipoIdentificacionEntity);
-				}
-			}catch (final SQLException excepcion){
-				var mensajeUsuario ="Se ha presentado un problema tratando de consultar la informacion del tipo de identificacion por el identificador deceado...";
-				var mensajeTecnico ="Se ha presentado un problema de tipo SQLException en el metodo consultarPorId de la clase TipoIdentificacionSQLServer tratando de recuperar los datos de la consulta del tipo identificacion deseado. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
-				throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);
-			}
-			
+			resultado = ejecutarConsultaPorId(sentenciaPreparada);		
 		}catch (final DataTiendaOnlineException exception) {
 			throw exception;
 		}catch(final SQLException excepcion) {
@@ -96,11 +93,124 @@ public final class TipoIdentificacionSQLServerDAO extends SQLDAO implements Tipo
 		return resultado;
 	}
 
+
+	
+	private Optional<TipoIdentificacionEntity>  ejecutarConsultaPorId(final PreparedStatement sentenciaPreparada) {
+		Optional<TipoIdentificacionEntity> resultado = Optional.empty();
+		
+		try (final var resultados = sentenciaPreparada.executeQuery()){
+			if (resultados.next()) {
+				var tipoIdentificacionEntity = TipoIdentificacionEntity.crear(UUID.fromString(resultados.getObject("id").toString()), resultados.getString("codigo"), resultados.getString("nombre"), resultados.getBoolean("estado"));
+				resultado = Optional.of(tipoIdentificacionEntity);
+			}
+		}catch (final SQLException excepcion){
+			var mensajeUsuario ="Se ha presentado un problema tratando de consultar la informacion del tipo de identificacion por el identificador deceado...";
+			var mensajeTecnico ="Se ha presentado un problema de tipo SQLException en el metodo consultarPorId de la clase TipoIdentificacionSQLServer tratando de recuperar los datos de la consulta del tipo identificacion deseado. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+			throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);
+		}
+		catch (final Exception excepcion){
+			var mensajeUsuario ="Se ha presentado un problema tratando de consultar la informacion del tipo de identificacion por el identificador deceado...";
+			var mensajeTecnico ="Se ha presentado un problema inesperado de tipo Exception en el metodo consultarPorId de la clase TipoIdentificacionSQLServer tratando de recuperar los datos de la consulta del tipo identificacion deseado. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+			throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);
+		}
+		return resultado;
+	} 
+	
+	private final String formarSentenciaConsulta(final TipoIdentificacionEntity entity, final List<Object> parametros) {
+		
+		final StringBuilder sentencia = new StringBuilder();
+		String operadorCondicional = "WHERE";
+		
+		sentencia.append("SELECT id, codigo, nombre, estado ");
+		sentencia.append("FROM TipoIdentificacion ");
+		if(!UtilObjeto.esNulo(entity)) {
+			if(!UtilObjeto.esNulo(entity.getId())) {
+				sentencia.append(operadorCondicional).append(" id = ? ");
+				operadorCondicional = "AND";
+				parametros.add(entity.getId());
+			}	
+			if(!UtilTexto.estaVacio(entity.getCodigo())) {
+				sentencia.append(operadorCondicional).append(" codigo = ? ");
+				operadorCondicional = "AND";
+				parametros.add(entity.getCodigo());
+			}
+			if(!UtilTexto.estaVacio(entity.getNombre())) {
+				sentencia.append(operadorCondicional).append(" nombre = ? ");
+				operadorCondicional = "AND";
+				parametros.add(entity.getNombre());
+			}
+			
+			//validar  ¿que pasa aqui?
+			if(!UtilObjeto.esNulo(entity.isEstado())) {
+				sentencia.append(operadorCondicional).append(" codigo = ? ");
+				parametros.add(entity.isEstado());
+			}
+		}
+		sentencia.append("ORDER BY codigo ASC ");
+		return sentencia.toString();
+	}
+	
 	@Override
-	public final List<TipoIdentificacionEntity> consultar(final TipoIdentificacionEntity entity) {
-		// TODO Auto-generated method stub
-		return null;
+	public final List<TipoIdentificacionEntity> consultar (final TipoIdentificacionEntity entity) {
+		final var parametros = new ArrayList<Object>();
+		
+		final String sentencia = formarSentenciaConsulta(entity, parametros);
+		
+		try (final var sentenciaPreparada = getConexion().prepareStatement(sentencia)){
+			colocarParametrosConsulta(sentenciaPreparada,parametros);
+			return ejecutarConaulta(sentenciaPreparada);
+			
+		}catch (final DataTiendaOnlineException excepcion) {
+			throw excepcion;
+		} 
+		catch (final SQLException excepcion) {
+			var mensajeUsuario ="Se ha presentado un problema tratando de llevar a cabo la consulta de los tipos de identificacion...";
+			var mensajeTecnico ="Se ha presentado un problema  en el metodo colocar parametros consulta en la clase TipoIdentificacionSQLServerDAO tratando de preparar la sentencia sql. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+			throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);	
+		}catch (final Exception excepcion) {
+			var mensajeUsuario ="Se ha presentado un problema tratando de llevar a cabo la consulta de los tipos de identificacion...";
+			var mensajeTecnico ="Se ha presentado un problema inesperado de tipo exception tratando de preparar la sentencia sql. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+			throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);	
+		}
+	}
+	
+	private final void colocarParametrosConsulta(final PreparedStatement sentenciaPreparada, final List<Object> parametros) {
+		try {
+			for (int  indice = 0; indice < parametros.size(); indice++) {
+				sentenciaPreparada.setObject(indice + 1, parametros.get(indice));
+			}
+			}catch (final SQLException excepcion) {
+				var mensajeUsuario ="Se ha presentado un problema tratando de llevar a cabo la consulta de los tipos de identificacion...";
+				var mensajeTecnico ="Se ha presentado un problema  en el metodo colocar parametros consulta en la clase TipoIdentificacionSQLServerDAO. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+				throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);	
+			}catch (final Exception excepcion) {
+				var mensajeUsuario ="Se ha presentado un problema tratando de llevar a cabo la consulta de los tipos de identificacion...";
+				var mensajeTecnico ="Se ha presentado un inesperado  en el metodo colocar parametros consulta en la clase TipoIdentificacionSQLServerDAO. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+				throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);	
+			}
+		}
+	
+	private final List<TipoIdentificacionEntity>ejecutarConaulta(final PreparedStatement sentenciaPreparada){
+		final var listaResultados = new ArrayList<TipoIdentificacionEntity>();
+		
+		try (final var resultados = sentenciaPreparada.executeQuery()){
+			while (resultados.next()) {
+				var tipoIdentificacionEntity = TipoIdentificacionEntity.crear(UUID.fromString(resultados.getObject("id").toString()), resultados.getString("codigo"), resultados.getString("nombre"), resultados.getBoolean("estado"));
+				listaResultados.add(tipoIdentificacionEntity);
+			}
+		}catch (final SQLException excepcion){
+			var mensajeUsuario ="Se ha presentado un problema tratando de consultar la informacion del tipo de identificacion por el identificador deceado...";
+			var mensajeTecnico ="Se ha presentado un problema de tipo SQLException en el metodo consultarPorId de la clase TipoIdentificacionSQLServer tratando de recuperar los datos de la consulta del tipo identificacion deseado. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+			throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);
+		}
+		catch (final Exception excepcion){
+			var mensajeUsuario ="Se ha presentado un problema tratando de consultar la informacion del tipo de identificacion por el identificador deceado...";
+			var mensajeTecnico ="Se ha presentado un problema inesperado de tipo Exception en el metodo consultarPorId de la clase TipoIdentificacionSQLServer tratando de recuperar los datos de la consulta del tipo identificacion deseado. por favor revise la trasa completa del problema presentado para asi poder identificar que sucedio...";
+			throw DataTiendaOnlineException.crear(excepcion,mensajeUsuario,mensajeTecnico);
+		}
+		return listaResultados;
+	}
+	
 	}
 
-}
 
