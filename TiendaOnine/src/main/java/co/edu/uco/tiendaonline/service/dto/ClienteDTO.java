@@ -1,37 +1,36 @@
 package co.edu.uco.tiendaonline.service.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import co.edu.uco.tiendaonline.crosscutting.util.UtilTexto;
-import co.edu.uco.tiendaonline.data.entity.TipoIdentificacionEntity;
-import co.edu.uco.tiendaonline.data.entity.support.CorreoElectronicoClienteEntity;
-import co.edu.uco.tiendaonline.data.entity.support.NombreCompletoClienteEntity;
-import co.edu.uco.tiendaonline.data.entity.support.NumeroTelefonoMovilClienteEntity;
+import co.edu.uco.tiendaonline.service.dto.support.CorreoElectronicoClienteDTO;
+import co.edu.uco.tiendaonline.service.dto.support.NombreCompletoClienteDTO;
+import co.edu.uco.tiendaonline.service.dto.support.NumeroTelefonoMovilClienteDTO;
 
 public class ClienteDTO {
 	private UUID id; 
 	private TipoIdentificacionDTO tipoidentificacion;
 	private String identificacion;
-	private NombreCompletoClienteEntity nombreCompleto;
-	private CorreoElectronicoClienteEntity correoElectornico;
-	private NumeroTelefonoMovilClienteEntity numeroTelefonoMovil;
-	private Date fechaNacimiento;
+	private NombreCompletoClienteDTO nombreCompleto;
+	private CorreoElectronicoClienteDTO correoElectornico;
+	private NumeroTelefonoMovilClienteDTO numeroTelefonoMovil;
+	private LocalDate fechaNacimiento;
 	
 	
 	public ClienteDTO() {
-		setId(id); //todo 
+		setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
 		setTipoidentificacion(new TipoIdentificacionDTO());
 		setIdentificacion(UtilTexto.VACIO);
 		setNombreCompleto(new NombreCompletoClienteDTO());
 		setCorreoElectornico(new CorreoElectronicoClienteDTO());
 		setNumeroTelefonoMovil(new NumeroTelefonoMovilClienteDTO());
-		setFechaNacimiento(fechaNacimiento);//todo: fecha por defecto que no es valida y facilmente identificable
+		setFechaNacimiento(LocalDate.of(2050, 1, 1));
 	}
 	
 	public ClienteDTO(final UUID id,final TipoIdentificacionDTO tipoidentificacion,final String identificacion,
-			final NombreCompletoClienteEntity nombreCompleto,final CorreoElectronicoClienteEntity correoElectornico,
-			final NumeroTelefonoMovilClienteEntity numeroTelefonoMovil,final Date fechaNacimiento) {
+			final NombreCompletoClienteDTO nombreCompleto,final CorreoElectronicoClienteDTO correoElectornico,
+			final NumeroTelefonoMovilClienteDTO numeroTelefonoMovil,final LocalDate fechaNacimiento) {
 		setId(id);
 		setTipoidentificacion(tipoidentificacion);
 		setIdentificacion(identificacion);
@@ -67,31 +66,31 @@ public class ClienteDTO {
 		this.identificacion = identificacion;
 		return this;
 	}
-	public final NombreCompletoClienteEntity getNombreCompleto() {
+	public final NombreCompletoClienteDTO getNombreCompleto() {
 		return nombreCompleto;
 	}
-	public final ClienteDTO setNombreCompleto(final NombreCompletoClienteEntity nombreCompleto) {
+	public final ClienteDTO setNombreCompleto(final NombreCompletoClienteDTO nombreCompleto) {
 		this.nombreCompleto = nombreCompleto;
 		return this;
 	}
-	public final CorreoElectronicoClienteEntity getCorreoElectornico() {
+	public final CorreoElectronicoClienteDTO getCorreoElectornico() {
 		return correoElectornico;
 	}
-	public final ClienteDTO setCorreoElectornico(final CorreoElectronicoClienteEntity correoElectornico) {
+	public final ClienteDTO setCorreoElectornico(final CorreoElectronicoClienteDTO correoElectornico) {
 		this.correoElectornico = correoElectornico;
 		return this;
 	}
-	public final NumeroTelefonoMovilClienteEntity getNumeroTelefonoMovil() {
+	public final NumeroTelefonoMovilClienteDTO getNumeroTelefonoMovil() {
 		return numeroTelefonoMovil;
 	}
-	public final ClienteDTO setNumeroTelefonoMovil(final NumeroTelefonoMovilClienteEntity numeroTelefonoMovil) {
+	public final ClienteDTO setNumeroTelefonoMovil(final NumeroTelefonoMovilClienteDTO numeroTelefonoMovil) {
 		this.numeroTelefonoMovil = numeroTelefonoMovil;
 		return this;
 	}
-	public final Date getFechaNacimiento() {
+	public final LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
-	public final ClienteDTO setFechaNacimiento(final Date fechaNacimiento) {
+	public final ClienteDTO setFechaNacimiento(final LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 		return this;
 	}

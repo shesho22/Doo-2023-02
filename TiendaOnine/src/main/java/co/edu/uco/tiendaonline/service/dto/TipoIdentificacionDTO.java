@@ -13,7 +13,7 @@ public final class TipoIdentificacionDTO {
 	
 	
 	public TipoIdentificacionDTO() {
-		setId(id); //TODO: ¿como lograr que por defecto se asigne un uuid que sea todo con 0?
+		setId(UUID.fromString("00000000-0000-0000-0000-000000000000")); 
 		setCodigo(UtilTexto.VACIO);
 		setNombre(UtilTexto.VACIO);
 		setEstado(false);
@@ -57,14 +57,6 @@ public final class TipoIdentificacionDTO {
 	public final TipoIdentificacionDTO setEstado(final boolean estado) {
 		this.estado = estado;
 		return this;
-	}
-	
-	
-	
-	
-	
-	public static void main(String[] args) {
-		TipoIdentificacionDTO tI= TipoIdentificacionDTO.crear().setEstado(true).setNombre("Cedula");
 	}
 	
 }
