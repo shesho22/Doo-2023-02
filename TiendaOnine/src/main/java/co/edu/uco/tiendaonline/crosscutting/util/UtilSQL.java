@@ -3,7 +3,7 @@ package co.edu.uco.tiendaonline.crosscutting.util;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import co.edu.uco.tiendaonline.crosscutting.exception.concrete.CrossCuttingTiendaOnlineException;import co.edu.uco.tiendaonline.crosscutting.exception.concrete.CrossCuttingTiendaOnlineException;
+import co.edu.uco.tiendaonline.crosscutting.exception.concrete.CrossCuttingTiendaOnlineException;
 import co.edu.uco.tiendaonline.crosscutting.messages.CatalogoMensajes;
 import co.edu.uco.tiendaonline.crosscutting.messages.enumerator.CodigoMensaje;
 

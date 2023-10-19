@@ -14,7 +14,6 @@ import co.edu.uco.tiendaonline.data.dao.TipoIdentificacionDAO;
 import co.edu.uco.tiendaonline.data.dao.concrete.sqlserver.TipoIdentificacionSQLServerDAO;
 import co.edu.uco.tiendaonline.data.dao.daofactory.DAOFactory;
 import co.edu.uco.tiendaonline.data.dao.daofactory.concrete.sqlserver.ClienteSQLServerDAO;
-import co.edu.uco.tiendaonline.data.dao.daofactory.concrete.sqlserver.TipoIdentificscionSQLServerDAO;
 
 public final class SQLServerDAOFactory extends DAOFactory {
 

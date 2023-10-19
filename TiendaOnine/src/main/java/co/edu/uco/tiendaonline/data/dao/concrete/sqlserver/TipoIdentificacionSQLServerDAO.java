@@ -4,21 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.boot.context.config.ConfigDataLocationResolver;
-import org.springframework.format.FormatterRegistrar;
 
 import co.edu.uco.tiendaonline.crosscutting.exception.concrete.DataTiendaOnlineException;
 import co.edu.uco.tiendaonline.crosscutting.util.UtilObjeto;
 import co.edu.uco.tiendaonline.crosscutting.util.UtilTexto;
-import co.edu.uco.tiendaonline.data.dao.ClienteDAO;
 import co.edu.uco.tiendaonline.data.dao.TipoIdentificacionDAO;
 import co.edu.uco.tiendaonline.data.dao.base.SQLDAO;
-import co.edu.uco.tiendaonline.data.entity.ClienteEntity;
 import co.edu.uco.tiendaonline.data.entity.TipoIdentificacionEntity;
 
 public final class TipoIdentificacionSQLServerDAO extends SQLDAO implements TipoIdentificacionDAO {
