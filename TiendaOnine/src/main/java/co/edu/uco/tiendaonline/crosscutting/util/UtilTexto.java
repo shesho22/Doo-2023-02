@@ -1,8 +1,11 @@
 package co.edu.uco.tiendaonline.crosscutting.util;
 
+
 public class UtilTexto {
 	
 	public static final String VACIO = "";
+	private static final String PATTERN_SOLO_LETRAS = "^[a-zA-ZáéíóúÁÉÍÓÚ ]+$";
+	private static final String PATTERN_SOLO_LETRAS_DIGITOS_ESPACIOS = "^[a-zA-ZáéíóúÁÉÍÓÚ 1234567890]+$";
 	
 	private UtilTexto() {
 		super();
@@ -44,4 +47,23 @@ public class UtilTexto {
 		return igualConTrim(valor, VACIO);
 	}
 	
+	public static final boolean longitudMinimaValida(final String valor, final int longitud) {
+		return aplicarTrim(valor).length() >= longitud;
+	}
+	
+	public static final boolean longitudMaximaValida(final String valor, final int longitud) {
+		return aplicarTrim(valor).length() <= longitud;
+	}
+	
+	public static final boolean longitudValida(final String valor, final int longitudMinima, final int longitudMaxima) {
+		return longitudMinimaValida(valor, longitudMinima) && longitudMinimaValida(valor, longitudMaxima);
+	}
+	
+	public static final boolean contieneSoloLetras(final String valor) {
+		return aplicarTrim(valor).matches(PATTERN_SOLO_LETRAS);
+	}
+	
+	public static final boolean contieneLetrasDigitosEspeciales(final String valor) {
+		return aplicarTrim(valor).matches(PATTERN_SOLO_LETRAS_DIGITOS_ESPACIOS);
+	}
 }

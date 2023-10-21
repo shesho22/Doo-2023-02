@@ -1,9 +1,6 @@
-package co.edu.uco.tiendaonline.service.domain;
+package co.edu.uco.tiendaonline.service.domain.tipoidentificacion;
 
 import java.util.UUID;
-
-import co.edu.uco.tiendaonline.crosscutting.util.UtilTexto;
-import co.edu.uco.tiendaonline.service.dto.TipoIdentificacionDTO;
 
 public class TipoIdentificacionDomain {
 	

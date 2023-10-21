@@ -9,7 +9,8 @@ import co.edu.uco.tiendaonline.data.dao.TipoIdentificacionDAO;
 import co.edu.uco.tiendaonline.data.dao.daofactory.DAOFactory;
 import co.edu.uco.tiendaonline.data.entity.TipoIdentificacionEntity;
 import co.edu.uco.tiendaonline.service.businesslogic.UseCase;
-import co.edu.uco.tiendaonline.service.domain.TipoIdentificacionDomain;
+import co.edu.uco.tiendaonline.service.businesslogic.validator.concrete.tipoidentificacion.RegistrarTipoIdentificacionValidator;
+import co.edu.uco.tiendaonline.service.domain.tipoidentificacion.TipoIdentificacionDomain;
 import co.edu.uco.tiendaonline.service.mapper.entity.concrete.TipoIdentificacionEntityMapper;
 
 public final class RegistrarTipoIdentificacionUseCase implements UseCase<TipoIdentificacionDomain>{
@@ -24,14 +25,8 @@ public final class RegistrarTipoIdentificacionUseCase implements UseCase<TipoIde
 	
 
 	@Override
-	public void execute(TipoIdentificacionDomain domain) {
-		//1. validad integridad de datos (tipo,longitud,obligatoriedad, formato ,etc)
-		//todo: como lograr el paso 1 
-		//tipo identificacion casos de uso crud 
-		//cliente casos casos de uso crud 
-		
-		
-		
+	public final void execute(TipoIdentificacionDomain domain) {
+		RegistrarTipoIdentificacionValidator.ejecutar(domain);
 		//2.No debe existir otro tipo de identificacion con el mismo codigo
 		validarNoExistenciaTipoIdentificacionConMismoCodigo(domain.getCodigo());
 		
@@ -40,8 +35,6 @@ public final class RegistrarTipoIdentificacionUseCase implements UseCase<TipoIde
 		
 		//4.No debe existir otro tipo de identificacion con el mismo identificador
 				domain = obtenerIdentificadorTipoIdentificacion(domain);
-		
-		//5. registrar el nuevo tipo de identificacion 
 		registrarNuevoTipoIdentificacion(domain);
 	}
 
