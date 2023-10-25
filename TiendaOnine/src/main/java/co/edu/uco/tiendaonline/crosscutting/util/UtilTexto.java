@@ -63,7 +63,7 @@ public class UtilTexto {
 		return aplicarTrim(valor).matches(PATTERN_SOLO_LETRAS);
 	}
 	
-	public static final boolean contieneLetrasDigitosEspeciales(final String valor) {
+	public static final boolean contieneSoloLetrasDigitosEspacios(final String valor) {
 		return aplicarTrim(valor).matches(PATTERN_SOLO_LETRAS_DIGITOS_ESPACIOS);
 	}
 }

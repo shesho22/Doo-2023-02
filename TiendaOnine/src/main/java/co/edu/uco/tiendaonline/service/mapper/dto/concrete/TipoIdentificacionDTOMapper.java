@@ -6,7 +6,11 @@ import co.edu.uco.tiendaonline.service.mapper.dto.DTOMapper;
 
 public final class TipoIdentificacionDTOMapper implements DTOMapper<TipoIdentificacionDTO, TipoIdentificacionDomain>{
 
+private static final DTOMapper<TipoIdentificacionDTO, TipoIdentificacionDomain> instancia = new TipoIdentificacionDTOMapper();
 	
+	private TipoIdentificacionDTOMapper() {
+		super();
+	}
 	
 	@Override
 	public TipoIdentificacionDomain toDomain(TipoIdentificacionDTO dto) {
@@ -24,8 +28,8 @@ public final class TipoIdentificacionDTOMapper implements DTOMapper<TipoIdentifi
 		return instancia.toDomain(dto);
 	}
 	
-	public static final TipoIdentificacionDomain convertirToDomain(final TipoIdentificacionDTO domain) {
-		return instancia.toDomain(domain);
+	public static final TipoIdentificacionDTO convertirToDTO(final TipoIdentificacionDomain domain) {
+		return instancia.toDTO(domain);
 	}
 
 }

@@ -40,7 +40,7 @@ public final class NombreTipoIdentificacionValidationRule implements ValidatorRu
 	}
 
 	private final void validarFormato(final String dato) {
-		if(!UtilTexto.contieneLetrasDigitosEspeciales(dato)) {
+		if(!UtilTexto.contieneSoloLetrasDigitosEspacios(dato)) {
 			var mensajeUsuario="El nombre del tipo identificacion solo pude contener letras y numeros";
 			throw ServiceTiendaOnlineException.crear(mensajeUsuario);
 		}
