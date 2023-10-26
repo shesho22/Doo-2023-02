@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import co.edu.uco.tiendaonline.crosscutting.util.UtilTexto;
+import co.edu.uco.tiendaonline.crosscutting.util.UtilUUID;
 import co.edu.uco.tiendaonline.service.dto.support.CorreoElectronicoClienteDTO;
 import co.edu.uco.tiendaonline.service.dto.support.NombreCompletoClienteDTO;
 import co.edu.uco.tiendaonline.service.dto.support.NumeroTelefonoMovilClienteDTO;
@@ -19,7 +20,7 @@ public class ClienteDTO {
 	
 	
 	public ClienteDTO() {
-		setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
+		setId(UtilUUID.getDefaultUUID(id));
 		setTipoidentificacion(new TipoIdentificacionDTO());
 		setIdentificacion(UtilTexto.VACIO);
 		setNombreCompleto(new NombreCompletoClienteDTO());

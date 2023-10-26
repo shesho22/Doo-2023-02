@@ -1,6 +1,6 @@
 package co.edu.uco.tiendaonline.data.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import co.edu.uco.tiendaonline.data.entity.support.CorreoElectronicoClienteEntity;
@@ -15,11 +15,11 @@ public final  class ClienteEntity {
 	private NombreCompletoClienteEntity nombreCompleto;
 	private CorreoElectronicoClienteEntity correoElectornico;
 	private NumeroTelefonoMovilClienteEntity numeroTelefonoMovil;
-	private Date fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	
 	
 	private ClienteEntity(final UUID id, final TipoIdentificacionEntity tipoidentificacion, final String identificacion, final NombreCompletoClienteEntity nombreCompleto, final CorreoElectronicoClienteEntity correoElectornico,
-			final NumeroTelefonoMovilClienteEntity numeroTelefonoMovil,final Date fechaNacimiento) {
+			final NumeroTelefonoMovilClienteEntity numeroTelefonoMovil,final LocalDate fechaNacimiento) {
 		setId(id);
 		setTipoidentificacion(tipoidentificacion);
 		setIdentificacion(identificacion);
@@ -30,7 +30,7 @@ public final  class ClienteEntity {
 	}
 	
 	public static final ClienteEntity crear(final UUID id, final TipoIdentificacionEntity tipoidentificacion, final String identificacion, final NombreCompletoClienteEntity nombreCompleto, final CorreoElectronicoClienteEntity correoElectornico,
-			final NumeroTelefonoMovilClienteEntity numeroTelefonoMovil,final Date fechaNacimiento) {
+			final NumeroTelefonoMovilClienteEntity numeroTelefonoMovil,final LocalDate fechaNacimiento) {
 		return new ClienteEntity(id, tipoidentificacion, identificacion, nombreCompleto, correoElectornico, numeroTelefonoMovil,fechaNacimiento);
 	}
 	
@@ -56,7 +56,7 @@ public final  class ClienteEntity {
 		this.numeroTelefonoMovil = numeroTelefonoMovil;
 	}
 
-	private final void setFechaNacimiento(final Date fechaNacimiento) {
+	private final void setFechaNacimiento(final LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
@@ -81,7 +81,7 @@ public final  class ClienteEntity {
 		return numeroTelefonoMovil;
 	}
 
-	public final Date getFechaNacimiento() {
+	public final LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 }
