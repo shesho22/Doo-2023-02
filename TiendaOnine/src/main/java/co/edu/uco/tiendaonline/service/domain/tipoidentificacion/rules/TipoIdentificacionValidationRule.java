@@ -2,7 +2,6 @@ package co.edu.uco.tiendaonline.service.domain.tipoidentificacion.rules;
 
 import co.edu.uco.tiendaonline.crosscutting.exception.concrete.ServiceTiendaOnlineException;
 import co.edu.uco.tiendaonline.crosscutting.util.UtilObjeto;
-import co.edu.uco.tiendaonline.crosscutting.util.UtilTexto;
 import co.edu.uco.tiendaonline.service.domain.ValidatorRule;
 import co.edu.uco.tiendaonline.service.domain.tipoidentificacion.TipoIdentificacionDomain;
 

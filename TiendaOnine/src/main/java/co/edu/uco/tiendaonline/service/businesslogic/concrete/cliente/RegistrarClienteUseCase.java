@@ -5,19 +5,16 @@ import java.util.UUID;
 
 import co.edu.uco.tiendaonline.crosscutting.exception.concrete.ServiceTiendaOnlineException;
 import co.edu.uco.tiendaonline.crosscutting.util.UtilObjeto;
-import co.edu.uco.tiendaonline.crosscutting.util.UtilTexto;
-import co.edu.uco.tiendaonline.data.dao.TipoIdentificacionDAO;
+import co.edu.uco.tiendaonline.data.dao.ClienteDAO;
 import co.edu.uco.tiendaonline.data.dao.daofactory.DAOFactory;
 import co.edu.uco.tiendaonline.data.entity.ClienteEntity;
-import co.edu.uco.tiendaonline.data.entity.TipoIdentificacionEntity;
 import co.edu.uco.tiendaonline.service.businesslogic.UseCase;
-import co.edu.uco.tiendaonline.service.businesslogic.validator.concrete.tipoidentificacion.RegistrarTipoIdentificacionValidator;
+import co.edu.uco.tiendaonline.service.businesslogic.validator.concrete.cliente.RegistrarClienteValidator;
 import co.edu.uco.tiendaonline.service.domain.cliente.ClienteDomain;
 import co.edu.uco.tiendaonline.service.domain.tipoidentificacion.TipoIdentificacionDomain;
 import co.edu.uco.tiendaonline.service.mapper.entity.concrete.ClienteEntityMapper;
-import co.edu.uco.tiendaonline.service.mapper.entity.concrete.TipoIdentificacionEntityMapper;
 
-public final class RegistrarClienteUseCase implements UseCase<TipoIdentificacionDomain>{
+public final class RegistrarClienteUseCase implements UseCase<ClienteDomain>{
 
 	private DAOFactory factoria;
 	
@@ -30,18 +27,14 @@ public final class RegistrarClienteUseCase implements UseCase<TipoIdentificacion
 
 	@Override
 	public final void execute(ClienteDomain domain) {
-		RegistrarTipoIdentificacionValidator.ejecutar(domain);
-
-		//3.No debe existir otro tipo de identificacion con el mismo nombre 
+		RegistrarClienteValidator.ejecutar(domain);
 		validarNoExistenciaClienteConMismoIdTipoDocumento(domain.getTipoidentificacion(),domain.getIdentificacion());
-		
-		//4.No debe existir otro tipo de identificacion con el mismo identificador
-				domain = obtenerIdentificadorCliente(domain);
-		registrarNuevoTipoIdentificacion(domain);
+		domain = obtenerIdentificadorCliente(domain);
+		registrarNuevoCliente(domain);
 	}
 
-	private void registrarNuevoTipoIdentificacion(final TipoIdentificacionDomain domain) {
-		var entity = TipoIdentificacionEntityMapper.convertToEntity(domain);
+	private void registrarNuevoCliente(final ClienteDomain domain) {
+		var entity = ClienteEntityMapper.convertToEntity(domain);
 		getClienteDAO().crear(entity);
 	}
 
@@ -66,7 +59,7 @@ public final class RegistrarClienteUseCase implements UseCase<TipoIdentificacion
 			uuid = UUID.randomUUID();
 			optional = getClienteDAO().consultarPorId(uuid);
 		}while(optional.isPresent());
-		return ClienteDomain.crear(uuid, domain.getCodigo(), domain.getNombre(), domain.isEstado());
+		return ClienteDomain.crear(uuid, domain.getTipoidentificacion(), domain.getIdentificacion(), domain.getNombreCompleto(),domain.getCorreoElectornico(),domain.getNumeroTelefonoMovil(),domain.getFechaNacimiento());
 	}
 	
 
@@ -83,9 +76,13 @@ public final class RegistrarClienteUseCase implements UseCase<TipoIdentificacion
 		this.factoria = factoria;
 	}
 
-	private final TipoIdentificacionDAO getClienteDAO() {
+	private final ClienteDAO getClienteDAO() {
 		return getFactoria().obtenerClienteDAO();
 	}
+
+
+
+	
 
 
 

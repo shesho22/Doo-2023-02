@@ -4,11 +4,11 @@ import co.edu.uco.tiendaonline.crosscutting.exception.concrete.ServiceTiendaOnli
 import co.edu.uco.tiendaonline.crosscutting.util.UtilTexto;
 import co.edu.uco.tiendaonline.service.domain.ValidatorRule;
 
-public final class CodigoTipoIdentificacionValidationRule implements ValidatorRule<String>{
+public final class CodigoClienteValidationRule implements ValidatorRule<String>{
 
-	private static final ValidatorRule<String> instancia = new CodigoTipoIdentificacionValidationRule();
+	private static final ValidatorRule<String> instancia = new CodigoClienteValidationRule();
 	
-	  private CodigoTipoIdentificacionValidationRule() {
+	  private CodigoClienteValidationRule() {
 		  super();
 	  }
 	  
