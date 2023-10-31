@@ -27,14 +27,9 @@ public final class RegistrarTipoIdentificacionUseCase implements UseCase<TipoIde
 	@Override
 	public final void execute(TipoIdentificacionDomain domain) {
 		RegistrarTipoIdentificacionValidator.ejecutar(domain);
-		//2.No debe existir otro tipo de identificacion con el mismo codigo
 		validarNoExistenciaTipoIdentificacionConMismoCodigo(domain.getCodigo());
-		
-		//3.No debe existir otro tipo de identificacion con el mismo nombre 
 		validarNoExistenciaTipoIdentificacionConMismoNombre(domain.getNombre());
-		
-		//4.No debe existir otro tipo de identificacion con el mismo identificador
-				domain = obtenerIdentificadorTipoIdentificacion(domain);
+		domain = obtenerIdentificadorTipoIdentificacion(domain);
 		registrarNuevoTipoIdentificacion(domain);
 	}
 

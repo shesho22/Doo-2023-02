@@ -1,29 +1,35 @@
 package co.edu.uco.tiendaonline.service.businesslogic.validator.concrete.cliente;
 
 import co.edu.uco.tiendaonline.service.businesslogic.validator.Validator;
-import co.edu.uco.tiendaonline.service.domain.tipoidentificacion.TipoIdentificacionDomain;
-import co.edu.uco.tiendaonline.service.domain.tipoidentificacion.rules.CodigoTipoIdentificacionValidationRule;
-import co.edu.uco.tiendaonline.service.domain.tipoidentificacion.rules.IdTipoIdentificacionValidationRule;
-import co.edu.uco.tiendaonline.service.domain.tipoidentificacion.rules.NombreTipoIdentificacionValidationRule;
+import co.edu.uco.tiendaonline.service.domain.cliente.ClienteDomain;
+import co.edu.uco.tiendaonline.service.domain.cliente.rules.CorreoElectronicoValidationRule;
+import co.edu.uco.tiendaonline.service.domain.cliente.rules.FechaNacimientoValidationRule;
+import co.edu.uco.tiendaonline.service.domain.cliente.rules.IdClienteValidationRule;
+import co.edu.uco.tiendaonline.service.domain.cliente.rules.IdentificacionValidationRule;
+import co.edu.uco.tiendaonline.service.domain.cliente.rules.NombreCompletoValidationRule;
+import co.edu.uco.tiendaonline.service.domain.cliente.rules.NumeroTelefonoMovilValidationRule;
 import co.edu.uco.tiendaonline.service.domain.tipoidentificacion.rules.TipoIdentificacionValidationRule;
 
-public class ModificarClienteValidator implements Validator<TipoIdentificacionDomain>{
-	private static final Validator<TipoIdentificacionDomain> instancia = new ModificarClienteValidator();
+public class ModificarClienteValidator implements Validator<ClienteDomain>{
+	private static final Validator<ClienteDomain> instancia = new ModificarClienteValidator();
 	
 	private ModificarClienteValidator() {
 		super();
 	}
 	
-	public static final void ejecutarValidacion(final TipoIdentificacionDomain data) {
+	public static final void ejecutarValidacion(final ClienteDomain data) {
 		instancia.execute(data);
 	}
 
 	@Override
-	public void execute(TipoIdentificacionDomain dato) {
-		TipoIdentificacionValidationRule.ejecutarValidacion(dato);
-		IdTipoIdentificacionValidationRule.ejecutarValidacion(dato.getId());
-		CodigoTipoIdentificacionValidationRule.ejecutarValidacion(dato.getCodigo());
-		NombreTipoIdentificacionValidationRule.ejecutarValidacion(dato.getNombre());
+	public void execute(ClienteDomain data) {
+		IdClienteValidationRule.ejecutarValidacion(data.getId());
+	    TipoIdentificacionValidationRule.ejecutarValidacion(data.getTipoidentificacion());
+	    IdentificacionValidationRule.ejecutarValidacion(data.getIdentificacion());
+	    NombreCompletoValidationRule.ejecutarValidacion(data.getNombreCompleto());
+	    CorreoElectronicoValidationRule.ejecutarValidacion(data.getCorreoElectornico());
+	    NumeroTelefonoMovilValidationRule.ejecutarValidacion(data.getNumeroTelefonoMovil());
+	    FechaNacimientoValidationRule.ejecutarValidacion(data.getFechaNacimiento());
 	}
 	
 }
