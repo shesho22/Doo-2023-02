@@ -4,26 +4,26 @@ import co.edu.uco.tiendaonline.crosscutting.exception.TiendaOnlineException;
 import co.edu.uco.tiendaonline.crosscutting.exception.concrete.ServiceTiendaOnlineException;
 import co.edu.uco.tiendaonline.data.dao.daofactory.DAOFactory;
 import co.edu.uco.tiendaonline.data.dao.daofactory.TipoDAOFactory;
-import co.edu.uco.tiendaonline.service.businesslogic.concrete.tipoidentificacion.RegistrarTipoIdentificacionUseCase;
-import co.edu.uco.tiendaonline.service.businesslogic.validator.concrete.tipoidentificacion.RegistrarTipoIdentificacionValidator;
-import co.edu.uco.tiendaonline.service.domain.tipoidentificacion.TipoIdentificacionDomain;
-import co.edu.uco.tiendaonline.service.dto.TipoIdentificacionDTO;
+import co.edu.uco.tiendaonline.service.businesslogic.concrete.cliente.RegistrarClienteUseCase;
+import co.edu.uco.tiendaonline.service.businesslogic.validator.concrete.cliente.RegistrarClienteValidator;
+import co.edu.uco.tiendaonline.service.domain.cliente.ClienteDomain;
+import co.edu.uco.tiendaonline.service.dto.ClienteDTO;
 import co.edu.uco.tiendaonline.service.facade.Facade;
-import co.edu.uco.tiendaonline.service.mapper.dto.concrete.TipoIdentificacionDTOMapper;
+import co.edu.uco.tiendaonline.service.mapper.dto.concrete.ClienteDTOMapper;
 
-public final class RegistrarClienteFacade implements Facade<TipoIdentificacionDTO>{
+public final class RegistrarClienteFacade implements Facade<ClienteDTO>{
 
 	@Override
-	public final void execute(TipoIdentificacionDTO dto) {
-		final TipoIdentificacionDomain domain = TipoIdentificacionDTOMapper.convertirToDomain(dto);
-		RegistrarTipoIdentificacionValidator.ejecutar(domain);
+	public final void execute(ClienteDTO dto) {
+		final ClienteDomain domain = ClienteDTOMapper.convertirToDomain(dto);
+		RegistrarClienteValidator.ejecutar(domain);
 		
 		final DAOFactory daoFactory =DAOFactory.obtenerDAOFactory(TipoDAOFactory.SQLSERVER);
 		
 		try {
 			daoFactory.iniciarTransaccion();
 			
-			var useCase = new RegistrarTipoIdentificacionUseCase(daoFactory);
+			var useCase = new RegistrarClienteUseCase(daoFactory);
 			useCase.execute(domain);
 			
 			daoFactory.confirmarTransaccion();
@@ -33,8 +33,8 @@ public final class RegistrarClienteFacade implements Facade<TipoIdentificacionDT
 			throw excepcion;
 		}catch (Exception exception) {
 			daoFactory.cancelarTransaccion();
-			var mensajeUsuario ="Se ha presentado un error inesperado tratando de registrar un nuevo tipo de identificacion";
-			var mensajeTecnico = "Se ha presentado un error inesperado tratando de registrar un nuevo tipo de identificacion. verigue la trasa completa ";
+			var mensajeUsuario ="Se ha presentado un error inesperado tratando de registrar un nuevo cliente";
+			var mensajeTecnico = "Se ha presentado un error inesperado tratando de registrar un nuevo cliente. verigue la trasa completa ";
 			throw ServiceTiendaOnlineException.crear(exception,mensajeUsuario,mensajeTecnico);
 		}
 		finally {

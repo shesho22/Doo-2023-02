@@ -14,22 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.uco.tiendaonline.controller.support.response.Respuesta;
 import co.edu.uco.tiendaonline.crosscutting.exception.TiendaOnlineException;
+import co.edu.uco.tiendaonline.data.dao.ClienteDAO;
+import co.edu.uco.tiendaonline.service.dto.ClienteDTO;
 import co.edu.uco.tiendaonline.service.dto.TipoIdentificacionDTO;
-import co.edu.uco.tiendaonline.service.facade.concrete.tipoidentificacion.RegistrarTipoIdentificacionFacade;
+import co.edu.uco.tiendaonline.service.facade.concrete.cliente.RegistrarClienteFacade;
 
 @RestController
-@RequestMapping("/api/v1/tipoidentificacion")
-public final class TipoIdentificacionController {
+@RequestMapping("/api/v1/cliente")
+public final class ClienteController {
 	
 	
 	@GetMapping("/dummy")
-	public final TipoIdentificacionDTO obtenerDummy() {
-		return TipoIdentificacionDTO.crear();
+	public final ClienteDTO obtenerDummy() {
+		return ClienteDTO.crear();
 	}
 	
 	@GetMapping
-	public final TipoIdentificacionDTO consultar(@RequestBody TipoIdentificacionDTO dto) {
-		return dto;
+	public final ClienteDAO consultar(@RequestBody ClienteDTO dto) {
+		return (ClienteDAO) dto;
 	}
 	@GetMapping("/{id}")
 	public final UUID consiltarPorId(@PathVariable("id")UUID id) {
@@ -38,14 +40,14 @@ public final class TipoIdentificacionController {
 	
 	
 	@PostMapping
-	public final TipoIdentificacionDTO registrar(@RequestBody TipoIdentificacionDTO dto) {
+	public final ClienteDTO registrar(@RequestBody ClienteDTO dto) {
 		Respuesta<TipoIdentificacionDTO> respuesta =new Respuesta<>();
 		HttpStatus codigoHttp = HttpStatus.BAD_REQUEST;
 		try {
-			RegistrarTipoIdentificacionFacade facade = new RegistrarTipoIdentificacionFacade();
+			RegistrarClienteFacade facade = new RegistrarClienteFacade();
 			facade.execute(dto);
 			codigoHttp = HttpStatus.OK;
-			respuesta.getMensajes().add("El tipo de identificacion fue registrado existosamente...");
+			respuesta.getMensajes().add("El cliente fue registrado existosamente...");
 		} catch (final TiendaOnlineException exception) {
 			respuesta.getMensajes().add(exception.getMensajeUsuario());
 			System.err.println(exception.getMensajeTecnico());
@@ -62,7 +64,7 @@ public final class TipoIdentificacionController {
 	}
 	
 	@PutMapping
-	public final TipoIdentificacionDTO modificar(@PathVariable("id") UUID id,@RequestBody TipoIdentificacionDTO dto) {
+	public final ClienteDTO modificar(@PathVariable("id") UUID id,@RequestBody ClienteDTO dto) {
 		dto.setId(id);
 		return dto;
 	}
