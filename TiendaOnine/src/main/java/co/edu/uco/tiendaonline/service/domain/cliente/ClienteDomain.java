@@ -95,7 +95,7 @@ public class ClienteDomain {
 		this.fechaNacimiento = fechaNacimiento;
 		return this;
 	}
-	
+
 	
 
 }

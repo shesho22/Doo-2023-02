@@ -21,7 +21,7 @@ import co.edu.uco.tiendaonline.service.facade.concrete.cliente.RegistrarClienteF
 
 @RestController
 @RequestMapping("/api/v1/cliente")
-public final class ClienteController {
+public final class ClienteControllerImpl {
 	
 	
 	@GetMapping("/dummy")
